@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Null_;
 
 use function Pest\Laravel\json;
 
@@ -35,6 +36,13 @@ class TravelWeatherController extends Controller
 
             $weatherData = json_decode($response->getBody(),true);
 
+            $recomendation = null;
+
+                if($weatherData['temp'] > 31.8){
+                    $recomendation = "it's hot";
+                }else{
+                    $recomendation = "it's cold";
+                }
             $filtterdForcastList = [];
 
             foreach($weatherData['list'] as $forcast){
@@ -49,6 +57,7 @@ class TravelWeatherController extends Controller
 
             return response()->json([
                 'location' => $location,
+                'recomnadtion' => $recomendation,
                 'start_date' => $start_date->toDateString(),
                 'end_date' => $end_date->toDateString(),
                 'forecast' => $filtterdForcastList
