@@ -10,12 +10,12 @@ use function Pest\Laravel\json;
 
 class TravelWeatherController extends Controller
 {
-    public function tavelWeather($request)
+    public function tavelWeather(Request $request)
     {
         $request->validate([
             'location' => 'required',
-            'start_date' => 'required|date_format:y/m/d',
-            'end_date' => 'required|date_format:y/m/d'
+            'start_date' => 'required|date_format:Y/m/d',
+            'end_date' => 'required|date_format:Y/m/d'
         ]);
 
         $apiKey = env('OPENWEATHER_API_KEY');
@@ -39,7 +39,7 @@ class TravelWeatherController extends Controller
 
             foreach($weatherData['list'] as $forcast){
 
-                $forcastDate = Carbon::parse($forcast['dx_txt']);
+                $forcastDate = Carbon::parse($forcast['dt_txt']);
 
                 if($forcastDate->between($start_date , $end_date)){
                     $filtterdForcastList[] = $forcast;
