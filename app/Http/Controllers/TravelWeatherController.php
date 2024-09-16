@@ -38,11 +38,6 @@ class TravelWeatherController extends Controller
 
             $recomendation = null;
 
-                if($weatherData['temp'] > 31.8){
-                    $recomendation = "it's hot";
-                }else{
-                    $recomendation = "it's cold";
-                }
             $filtterdForcastList = [];
 
             foreach($weatherData['list'] as $forcast){
@@ -51,6 +46,13 @@ class TravelWeatherController extends Controller
 
                 if($forcastDate->between($start_date , $end_date)){
                     $filtterdForcastList[] = $forcast;
+                }
+                
+                $temperature = $forcast['main']['temp'];
+                if ($temperature > 20.8) {
+                    $recomendation = "It's hot";
+                } else {
+                    $recomendation = "It's cold";
                 }
             }
         
